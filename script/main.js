@@ -14,7 +14,8 @@ const leftMenu = document.querySelector('.left-menu'),
     description = document.querySelector('.description'),
     modalLink = document.querySelector('.modal__link'),
     searchForm = document.querySelector('.search__form'),
-    searchFormInput = document.querySelector('.search__form-input');
+    searchFormInput = document.querySelector('.search__form-input'),
+    preLoader = document.querySelector('.preloader');
 
 const loading = document.createElement('div')
 loading.className = 'loading'
@@ -126,6 +127,7 @@ tvShowsList.addEventListener('click', event => {
     const card = target.closest('.tv-card')
 
     if (card) {
+        preLoader.style.display = 'block'
         new DBService().getTvShow(card.id)
             .then(({
                poster_path: poster,
@@ -143,6 +145,7 @@ tvShowsList.addEventListener('click', event => {
                 modalLink.href = homepage
             })
             .then(() => {
+                preLoader.style.display = 'none'
                 document.body.style.overflow = 'hidden'
                 modal.classList.remove('hide')
             })
