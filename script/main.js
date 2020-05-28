@@ -136,7 +136,7 @@ tvShowsList.addEventListener('click', event => {
                vote_average: vote,
                overview,
                homepage}) => {
-                tvCardImg.src = IMG_URL + poster
+                tvCardImg.src = poster ? IMG_URL + poster : 'img/no-poster.jpg'
                 tvCardImg.alt = title
                 modalTitle.textContent = title
                 genresList.innerHTML = genres.reduce((acc, item) => `${acc}<li>${item.name}</li>`, '')
