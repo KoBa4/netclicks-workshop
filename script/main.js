@@ -15,12 +15,16 @@ const leftMenu = document.querySelector('.left-menu'),
     modalLink = document.querySelector('.modal__link'),
     searchForm = document.querySelector('.search__form'),
     searchFormInput = document.querySelector('.search__form-input'),
+    dropdowns = document.querySelectorAll('.dropdown'),
     preLoader = document.querySelector('.preloader');
 
 const loading = document.createElement('div')
 loading.className = 'loading'
 
 class DBService {
+    #server = 'https://api.themoviedb.org/3'
+    #api_key = 'a7c0da5a5b305f2e8011e35c50f18fab'
+
     getData = async (url) => {
         const res = await fetch(url)
         if (res.ok) {
@@ -30,17 +34,16 @@ class DBService {
         }
     }
 
-    getTestData = () => this.getData('test.json')
-
-    getTestCard = () => this.getData('card.json')
+    // getTestData = () => this.getData('test.json')
+    // getTestCard = () => this.getData('card.json')
 
     getSearchResult = query => this.getData(
         // SERVER + '/search/tv?api_key=' + API_KEY + '&language=ru-RU&query=' + query
-        `${SERVER}/search/tv?api_key=${API_KEY}&language=ru-RU&query=${query}`
+        `${this.#server}/search/tv?api_key=${this.#api_key}&language=ru-RU&query=${query}`
     )
 
     getTvShow = id => this.getData(
-        `${SERVER}/tv/${id}?api_key=${API_KEY}&language=ru-RU`
+        `${this.#server}/tv/${id}?api_key=${this.#api_key}&language=ru-RU`
     )
 }
 
@@ -95,9 +98,16 @@ searchForm.addEventListener('submit', event => {
 })
 
 // Меню
+const closeDropdown = () => {
+    dropdowns.forEach(item => {
+        item.classList.remove('active')
+    })
+}
+
 hamburger.addEventListener('click', () => {
     leftMenu.classList.toggle('openMenu')
     hamburger.classList.toggle('open')
+    closeDropdown()
 })
 
 document.addEventListener('click', event => {
@@ -105,6 +115,7 @@ document.addEventListener('click', event => {
     if (!target.closest('.left-menu')) {
         leftMenu.classList.remove('openMenu')
         hamburger.classList.remove('open')
+        closeDropdown()
     }
 })
 
